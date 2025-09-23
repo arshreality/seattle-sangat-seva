@@ -1,0 +1,11 @@
+body {
+  font-family: "Noto Sans", sans-serif;
+  background-color: #f8fafc;
+}
+.schedule-item {
+  transition: all 0.3s ease;
+}
+.schedule-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
