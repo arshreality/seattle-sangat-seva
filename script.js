@@ -1,9 +1,10 @@
 feather.replace();
 
-const wednesdayItems = [
+let wednesdayItems = [
   { duration: 20, name: "Rehraas" },
   { duration: 35, name: "Simran" },
-  { duration: 20, name: "Gurbani Vichar" },
+  { duration: 15, name: "Gurbani Vichar" },
+  { duration: 10, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
   { duration: -1, name: "Ardaas" },
@@ -11,14 +12,16 @@ const wednesdayItems = [
   { duration: -1, name: "Kirtan Sohila" },
 ];
 
-const saturdayItems = [
+let saturdayItems = [
   { duration: 50, name: "Simran" },
   { duration: 40, name: "Gurbani Vichar" },
   { duration: 20, name: "Rehraas" },
+  { duration: 10, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
-  { duration: 20, name: "Kirtan" },
+  { duration: 30, name: "Kirtan" },
+  { duration: 30, name: "Kirtan" },
   { duration: -1, name: "Ardaas" },
   { duration: -1, name: "Hukamnama" },
   { duration: -1, name: "Kirtan Sohila" },
@@ -27,12 +30,56 @@ const saturdayItems = [
 // Generate button removed — schedule will auto-generate
 document.getElementById("copy-btn").addEventListener("click", copyToClipboard);
 
-// Auto-generate when start-time or day changes
+// Add Kirtan button handler
+document.getElementById("add-kirtan").addEventListener("click", () => {
+  const selectedDay = document.getElementById("day-selector").value;
+  const items = selectedDay === "wednesday" ? wednesdayItems : saturdayItems;
+  
+  // Find the last Kirtan slot or the position before Ardaas
+  const lastKirtanIndex = findLastKirtanIndex(items);
+  
+  // Insert new Kirtan slot after the last Kirtan or before Ardaas
+  const newItems = [
+    ...items.slice(0, lastKirtanIndex + 1),
+    { duration: 20, name: "Kirtan" },
+    ...items.slice(lastKirtanIndex + 1)
+  ];
+  
+  // Update the items array
+  if (selectedDay === "wednesday") {
+    wednesdayItems = newItems;
+  } else {
+    saturdayItems = newItems;
+  }
+  
+  // Regenerate the schedule
+  generateSchedule();
+});
+
+function findLastKirtanIndex(items) {
+  // Find the index of Ardaas (which marks the end of variable items)
+  const ardaasIndex = items.findIndex(item => item.name === "Ardaas");
+  
+  // Start from Ardaas position and go backwards to find the last Kirtan
+  for (let i = ardaasIndex - 1; i >= 0; i--) {
+    if (items[i].name === "Kirtan") {
+      return i;
+    }
+  }
+  
+  // If no Kirtan found, insert before Ardaas
+  return ardaasIndex - 1;
+}
+
+// Auto-generate when start-time, end-time, or day changes
 document.getElementById("start-time").addEventListener("input", () => {
   generateSchedule();
 });
+document.getElementById("end-time").addEventListener("input", () => {
+  generateSchedule();
+});
 document.getElementById("day-selector").addEventListener("change", () => {
-  // set sensible default start time per day before generating
+  // set sensible default start and end time per day before generating
   const day = document.getElementById("day-selector").value;
   setDefaultStartForDay(day);
   generateSchedule();
@@ -47,14 +94,29 @@ window.addEventListener("load", () => {
 
 function generateSchedule() {
   const startTime = document.getElementById("start-time").value;
-  if (!startTime) {
-    alert("Please set a start time first");
+  const endTime = document.getElementById("end-time").value;
+  if (!startTime || !endTime) {
+    alert("Please set both start and end times");
     return;
   }
 
   const [startHour, startMinute] = startTime.split(":").map(Number);
+  const [endHour, endMinute] = endTime.split(":").map(Number);
   const selectedDay = document.getElementById("day-selector").value;
   const items = selectedDay === "wednesday" ? wednesdayItems : saturdayItems;
+
+  // Calculate total minutes between start and end
+  const totalMinutes = (endHour - startHour) * 60 + (endMinute - startMinute);
+  
+  // Calculate total duration of items with fixed duration
+  const totalFixedDuration = items
+    .filter(item => item.duration > 0)
+    .reduce((sum, item) => sum + item.duration, 0);
+
+  // If total duration exceeds available time, show warning
+  if (totalFixedDuration > totalMinutes) {
+    alert("Warning: The scheduled items exceed the available time between start and end times.");
+  }
 
   generateDaySchedule(selectedDay, items, startHour, startMinute);
 
@@ -516,11 +578,15 @@ if (_undoBtnTop) _undoBtnTop.addEventListener("click", performUndo);
 })();
 function setDefaultStartForDay(day) {
   const startInput = document.getElementById("start-time");
-  if (!startInput) return;
+  const endInput = document.getElementById("end-time");
+  if (!startInput || !endInput) return;
+  
   if (day === "wednesday") {
     startInput.value = "18:00";
+    endInput.value = "20:00"; // 8:00 PM
   } else if (day === "saturday") {
     startInput.value = "15:30";
+    endInput.value = "19:30"; // 7:30 PM
   }
 }
 
