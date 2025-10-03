@@ -40,7 +40,8 @@
       </header>
 
       <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+        <!-- Use 3 columns on md+ so Day, Start Time, End Time can align in one row -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
           <div class="md:col-span-1">
             <label
               for="day-selector"
@@ -49,13 +50,12 @@
             >
             <select
               id="day-selector"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              class="w-full px-4 h-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             >
               <option value="wednesday">Wednesday</option>
               <option value="saturday">Saturday</option>
             </select>
           </div>
-
           <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label
@@ -67,7 +67,7 @@
                 type="time"
                 id="start-time"
                 value="18:00"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                class="w-full px-4 h-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
             <div>
@@ -79,7 +79,7 @@
               <input
                 type="time"
                 id="end-time"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                class="w-full px-4 h-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
           </div>
