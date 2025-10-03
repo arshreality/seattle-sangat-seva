@@ -442,7 +442,8 @@ document.getElementById("schedule-items").addEventListener("input", (e) => {
 
 // Delegated click handler for +/- buttons
 document.getElementById("schedule-items").addEventListener("click", (e) => {
-  const btn = e.target;
+  const btn = e.target.closest && e.target.closest('[data-delete-index], [data-increment-start], [data-decrement-start], [data-increment-end], [data-decrement-end]');
+
   if (!btn) return;
   // deletion handler
   if (btn.hasAttribute("data-delete-index")) {
