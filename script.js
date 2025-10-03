@@ -132,6 +132,19 @@ function generateSchedule() {
 
 function generateDaySchedule(day, items, startHour, startMinute) {
   const container = document.getElementById("schedule-items");
+  // Capture previously-entered person names so we can restore them after rebuilding
+  const prevNames = {};
+  Array.from(container.children).forEach((child) => {
+    const titleEl = child.querySelector("h3");
+    const itemName = titleEl ? titleEl.textContent.trim() : null;
+    const personInput = child.querySelector('input[data-index]');
+    const personValue = personInput ? personInput.value : "";
+    if (itemName) {
+      if (!prevNames[itemName]) prevNames[itemName] = [];
+      prevNames[itemName].push(personValue);
+    }
+  });
+
   container.innerHTML = "";
 
   let currentHour = startHour;
@@ -210,7 +223,19 @@ function generateDaySchedule(day, items, startHour, startMinute) {
       itemDiv.dataset.duration = String(item.duration);
 
     container.appendChild(itemDiv);
+
+    // Restore previously-entered person name for this logical item if available.
+    // We match by item.name and occurrence index (e.g., first 'Kirtan', second 'Kirtan', etc.).
+    const seenCounts = window.__restoreSeenCounts || (window.__restoreSeenCounts = {});
+    const occ = seenCounts[item.name] || 0;
+    seenCounts[item.name] = occ + 1;
+    const prevVal = (prevNames[item.name] && prevNames[item.name][occ]) || "";
+    const personInputEl = itemDiv.querySelector(`input[data-index="${index}"]`);
+    if (personInputEl && prevVal) personInputEl.value = prevVal;
   });
+
+  // clear restore counters for next regen
+  window.__restoreSeenCounts = {};
 
   // helper: recompute following items when an item's time changes
   function recomputeFollowing(changedIndex) {
