@@ -1,4 +1,4 @@
-# Seattle Sangat Seva
+# Seattle Sangat Seva -- https://arshreality.github.io/seattle-sangat-seva/
 
 A simple static website to manage and generate a kirtan schedule for the Seattle Sangat. Built with plain HTML, Tailwind CSS (via CDN), minimal JavaScript, and a small custom stylesheet.
 
