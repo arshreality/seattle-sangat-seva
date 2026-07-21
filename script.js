@@ -4,27 +4,26 @@ let wednesdayItems = [
   { duration: 20, name: "Rehraas" },
   { duration: 35, name: "Simran" },
   { duration: 15, name: "Gurbani Vichar" },
-  { duration: 10, name: "Kirtan" },
-  { duration: 20, name: "Kirtan" },
-  { duration: 20, name: "Kirtan" },
+  { duration: 25, name: "Kirtan" },
+  { duration: 25, name: "Kirtan" },
   { duration: -1, name: "Ardaas" },
   { duration: -1, name: "Hukamnama" },
-  { duration: -1, name: "Kirtan Sohila" },
+  { duration: -1, name: "Sohila" },
 ];
 
 let saturdayItems = [
   { duration: 50, name: "Simran" },
   { duration: 40, name: "Gurbani Vichar" },
   { duration: 20, name: "Rehraas" },
-  { duration: 10, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
-  { duration: 30, name: "Kirtan" },
-  { duration: 30, name: "Kirtan" },
+  { duration: 20, name: "Kirtan" },
+  { duration: 25, name: "Kirtan" },
+  { duration: 25, name: "Kirtan" },
   { duration: -1, name: "Ardaas" },
   { duration: -1, name: "Hukamnama" },
-  { duration: -1, name: "Kirtan Sohila" },
+  { duration: -1, name: "Sohila" },
 ];
 
 // Generate button removed — schedule will auto-generate
