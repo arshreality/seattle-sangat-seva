@@ -13,9 +13,10 @@ let wednesdayItems = [
 
 let saturdayItems = [
   { duration: 50, name: "Simran" },
-  { duration: 40, name: "Gurbani Vichar" },
+  { duration: 30, name: "Gurbani Vichar" },
   { duration: 20, name: "Rehraas" },
-  { duration: 20, name: "Kirtan" },
+  { duration: 15, name: "Kirtan" },
+  { duration: 15, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
   { duration: 20, name: "Kirtan" },
